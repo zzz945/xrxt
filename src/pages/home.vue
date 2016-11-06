@@ -1,13 +1,16 @@
 <template>
-  <div style="font-size: 24px;">
+  <div style="padding: 24px;">
     <el-row :gutter="20">
       <el-col :span="6">
         <p> </p>
       </el-col>
       <el-col :span="12">
-        <p>执法人员数量</p>
-        <el-input-number v-model="input_count_official" :min="0" :max="$store.state.officials.length">
-        </el-input-number>
+        <el-form>
+          <el-form-item label="执法人员数量">
+            <el-input-number v-model="input_count_official" :min="0" :max="$store.state.officials.length">
+            </el-input-number>
+          </el-form-item>
+        </el-form>
       </el-col>
       <el-col :span="6">
         <p> </p>
@@ -18,8 +21,11 @@
         <p> </p>
       </el-col>
       <el-col :span="12">
-        <p>执法对象数量</p>
-        <el-input-number v-model="input_count_target" :min="0" :max="$store.state.targets.length"></el-input-number>
+        <el-form>
+          <el-form-item label="执法对象数量">
+            <el-input-number v-model="input_count_target" :min="0" :max="$store.state.targets.length"></el-input-number>
+          </el-form-item>
+        </el-form>
       </el-col>
       <el-col :span="6">
         <p> </p>
