@@ -12,7 +12,7 @@
               <template slot="prepend">用户名</template>
             </el-input>
             <el-input id="input_secret" placeholder="请输入密码" v-model="input_secret">
-              <template slot="prepend">密 码</template>
+              <template slot="prepend">密&nbsp;码</template>
             </el-input>
             <el-button style="width: 100%;" @click="login">登录</el-button>
           </el-col>
@@ -25,8 +25,8 @@
     <div v-show="islogin">
       <el-menu theme="dark" default-active="1" class="el-menu-demo" mode="horizontal" @select="handleselect">
         <el-menu-item index="/">随机抽取</el-menu-item>
-        <el-menu-item index="2">查看/编辑执法人员</el-menu-item>
-        <el-menu-item index="3">查看/编辑执法目标</el-menu-item>
+        <el-menu-item index="/officials">查看/编辑执法人员</el-menu-item>
+        <el-menu-item index="/targets">查看/编辑执法目标</el-menu-item>
       </el-menu>
       <router-view></router-view>
     </div>
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import store from './vuex/store'
 
 const USER_NAME = 'admin' 
 const SECRET = 'admin'
@@ -47,7 +46,6 @@ export default {
       islogin: false
     }
   },
-  store: store,
   methods: {
     login () {
       if (this.input_secret === SECRET) {

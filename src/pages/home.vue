@@ -6,7 +6,7 @@
       </el-col>
       <el-col :span="12">
         <p>执法人员数量</p>
-        <el-input-number v-model="input_count_official" :min="0" :max="officials.length">
+        <el-input-number v-model="input_count_official" :min="0" :max="$store.state.officials.length">
         </el-input-number>
       </el-col>
       <el-col :span="6">
@@ -19,7 +19,7 @@
       </el-col>
       <el-col :span="12">
         <p>执法对象数量</p>
-        <el-input-number v-model="input_count_target" :min="0" :max="targets.length"></el-input-number>
+        <el-input-number v-model="input_count_target" :min="0" :max="$store.state.targets.length"></el-input-number>
       </el-col>
       <el-col :span="6">
         <p> </p>
@@ -119,12 +119,6 @@ export default {
       target_showed: {}
     }
   },
-  vuex: {
-    getters: {
-      officials: (state) => state.officials,
-      targets: (state) => state.targets
-    }
-  },
   methods: {
     pick () {
       if (this.input_count_official === 0 && this.input_count_target === 0) {
@@ -138,14 +132,14 @@ export default {
       this.officials_picked = []
       this.targets_picked = []
 
-      let tmp = this.officials.slice()
+      let tmp = this.$store.state.officials.slice()
       for(let i = 0; i < this.input_count_official; i++) {
         let idx = Math.round(Math.random()*(tmp.length - 1))
         this.officials_picked.push(tmp[idx])
         tmp.splice(idx, 1)
       }
 
-      tmp = this.targets.slice()
+      tmp = this.$store.state.targets.slice()
       for(let i = 0; i < this.input_count_target; i++) {
         let idx = Math.round(Math.random()*(tmp.length - 1))
         this.targets_picked.push(tmp[idx])
