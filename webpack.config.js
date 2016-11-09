@@ -4,7 +4,7 @@ var webpack = require('webpack')
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: path.resolve(__dirname, './nwjs/dist'),
     publicPath: './dist/',
     filename: 'build.js'
   },
@@ -43,7 +43,8 @@ module.exports = {
     historyApiFallback: true,
     noInfo: true
   },
-  devtool: '#eval-source-map'
+  devtool: '#eval-source-map',
+  target: 'node-webkit'
 }
 
 if (process.env.NODE_ENV === 'production') {

@@ -2,8 +2,8 @@
   <div>
     <div v-show="!islogin" class="login-bd">
       <p class="title">北票市行政执法随机抽取系统</p>
-      <div class="input">
-        <el-row :gutter="20">
+      <div class="input-box">
+        <el-row class="box" :gutter="20">
           <el-col :span="6">
             <p> </p>
           </el-col>
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-
 const USER_NAME = 'admin' 
 const SECRET = 'admin'
 
@@ -45,6 +44,15 @@ export default {
       input_secret: "",
       islogin: false
     }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+      let fs = require("fs")
+      let officials = JSON.parse(fs.readFileSync("dist/assets/officials.json"))
+      this.$store.commit("setOfficials", { officials: officials })
+      let targets = JSON.parse(fs.readFileSync("dist/assets/targets.json"))
+      this.$store.commit("setTargets", { targets: targets })
+    })
   },
   methods: {
     login () {
@@ -83,8 +91,12 @@ export default {
       font-weight: bold;
       text-align: center;
     }
-    .input {
+    .input-box {
       width: 100%;
+      .box {
+        width: 100%;
+        box-sizing: border-box;
+      }
     }
   }
 </style>

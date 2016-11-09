@@ -1,0 +1,11 @@
+{
+  "main": "index.html",
+  "name": "xrxt",
+  "window": {
+    "icon": "./dist/assets/logo.png",
+    "width": 800,
+    "height": 500,
+    "resizable": false
+  },
+  "node-remote": "http://localhost"
+}
