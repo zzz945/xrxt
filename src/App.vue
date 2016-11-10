@@ -47,10 +47,12 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
-      let fs = require("fs")
-      let officials = JSON.parse(fs.readFileSync("dist/assets/officials.json"))
+      let JsonDB = require('node-json-db')
+      let db = new JsonDB("dist/assets/db", true, false)
+
+      let officials = db.getData("/officials")
       this.$store.commit("setOfficials", { officials: officials })
-      let targets = JSON.parse(fs.readFileSync("dist/assets/targets.json"))
+      let targets = db.getData("/targets")
       this.$store.commit("setTargets", { targets: targets })
     })
   },
