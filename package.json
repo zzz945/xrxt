@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "element-ui": "^1.0.0-rc.4",
-    "lowdb": "^0.14.0",
-    "node-json-db": "^0.7.3",
+    "nedb": "^1.8.0",
     "vue": "^2.0.1",
     "vue-router": "^2.0.1",
     "vuex": "^2.0.0"

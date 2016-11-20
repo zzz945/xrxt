@@ -25,8 +25,8 @@
     <div v-show="islogin">
       <el-menu theme="dark" default-active="1" class="el-menu-demo" mode="horizontal" @select="handleselect">
         <el-menu-item index="/">随机抽取</el-menu-item>
-        <el-menu-item index="/officials">查看/编辑执法人员</el-menu-item>
-        <el-menu-item index="/targets">查看/编辑执法目标</el-menu-item>
+        <el-menu-item index="/officials">执法人员管理</el-menu-item>
+        <el-menu-item index="/targets">执法目标管理</el-menu-item>
       </el-menu>
       <router-view></router-view>
     </div>
@@ -47,13 +47,6 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
-      let JsonDB = require('node-json-db')
-      let db = new JsonDB("dist/assets/db", true, false)
-
-      let officials = db.getData("/officials")
-      this.$store.commit("setOfficials", { officials: officials })
-      let targets = db.getData("/targets")
-      this.$store.commit("setTargets", { targets: targets })
     })
   },
   methods: {

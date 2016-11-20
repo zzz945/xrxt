@@ -55,11 +55,8 @@
         <p> </p>
       </el-col>
     </el-row>
-    <el-dialog title="执法人员信息" v-model="show_offical_info">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <p>编号:{{offical_showed.id}}</p>
-        </el-col>
+    <el-dialog title="执法人员信息" size="large" v-model="show_offical_info">
+      <el-row :gutter="0">
         <el-col :span="6">
           <p>姓名:{{offical_showed.name}}</p>
         </el-col>
@@ -71,29 +68,26 @@
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="8">
+        <el-col :span="6">
           <p>科室:{{offical_showed.office}}</p>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6">
           <p>职位:{{offical_showed.position}}</p>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="12">
           <p>电话:{{offical_showed.phone}}</p>
         </el-col>
       </el-row>
     </el-dialog>
-    <el-dialog title="执法人员信息" v-model="show_target_info">
-      <el-row :gutter="20">
-        <el-col :span="5">
-          <p>编号:{{target_showed.id}}</p>
-        </el-col>
-        <el-col :span="5">
+    <el-dialog title="执法目标信息" size="large" v-model="show_target_info">
+      <el-row :gutter="0">
+        <el-col :span="6">
           <p>姓名:{{target_showed.name}}</p>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="6">
           <p>法人:{{target_showed.corporation}}</p>
         </el-col>
-        <el-col :span="9">
+        <el-col :span="12">
           <p>注册资本:{{target_showed.registered_capital}}</p>
         </el-col>
       </el-row>
@@ -138,19 +132,29 @@ export default {
       this.officials_picked = []
       this.targets_picked = []
 
-      let tmp = this.$store.state.officials.slice()
-      for(let i = 0; i < this.input_count_official; i++) {
-        let idx = Math.round(Math.random()*(tmp.length - 1))
-        this.officials_picked.push(tmp[idx])
-        tmp.splice(idx, 1)
-      }
+      let officials_db = this.$store.state.officials_db 
+      let targets_db = this.$store.state.targets_db    
+      let _this = this
+      
+      officials_db.find({}, { name: 1 }, function (err, docs) {
+        for(let i = 0; i < _this.input_count_official; i++) {
+          let idx = Math.round(Math.random()*(docs.length - 1))               
+          officials_db.find({ _id: docs[idx]._id}, function (err, docs) {
+            _this.officials_picked.push(docs[0]) 
+          })
+          docs.splice(idx, 1)//删除已经选出来的确保不会重复
+        }
+      })
 
-      tmp = this.$store.state.targets.slice()
-      for(let i = 0; i < this.input_count_target; i++) {
-        let idx = Math.round(Math.random()*(tmp.length - 1))
-        this.targets_picked.push(tmp[idx])
-        tmp.splice(idx, 1) 
-      }
+      targets_db.find({}, { name: 1 }, function (err, docs) {
+        for(let i = 0; i < _this.input_count_target; i++) {
+          let idx = Math.round(Math.random()*(docs.length - 1))  
+          targets_db.find({ _id: docs[idx]._id}, function (err, docs) {
+            _this.targets_picked.push(docs[0]) 
+          })       
+          docs.splice(idx, 1)//删除已经选出来的确保不会重复
+        }
+      })
 
       this.show_result = true
     },

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-table :data="$store.state.targets" border style="width: 100%">
-            <el-table-column prop="id" label="编号">
+        <el-table :data="targets_show" border style="width: 100%">
+            <el-table-column type="index">
             </el-table-column>
             <el-table-column prop="name" label="公司">
             </el-table-column>
@@ -13,6 +13,89 @@
             </el-table-column>
             <el-table-column prop="phone" label="电话">
             </el-table-column>
+            <el-table-column :context="_self" inline-template label="操作">
+                <div>
+                    <el-button size="small" @click="handleEdit($index, row)">
+                        编辑
+                    </el-button>
+                    <el-button size="small" type="danger" @click="handleDelete($index, row)">
+                        删除
+                    </el-button>
+                </div>
+            </el-table-column>
         </el-table>
+        <el-dialog title="执法目标信息" size="large" v-model="dialog_edit">
+            <el-form :model="target_edit">
+                <el-form-item label="名称">
+                    <el-input v-model="target_edit.name"></el-input>
+                </el-form-item>
+                <el-form-item label="法人">
+                    <el-input v-model="target_edit.corporation"></el-input>
+                </el-form-item>
+                <el-form-item label="注册资金">
+                    <el-input v-model="target_edit.registered_capital"></el-input>
+                </el-form-item>
+                <el-form-item label="地址">
+                    <el-input v-model="target_edit.address"></el-input>
+                </el-form-item>
+                <el-form-item label="电话">
+                    <el-input v-model="target_edit.phone"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="dialog_edit = false">取 消</el-button>
+                <el-button type="primary" @click.native="saveEditedTarget()">确 定</el-button>
+            </div>
+        </el-dialog>
     </div>
 </template>
+<script>
+export default {
+  data () {
+    return {
+        targets_show: [],
+        dialog_edit: false,
+        target_edit: {
+            name: "",
+            corporation: "",
+            registered_capital: "",
+            address: "",
+            phone: ""
+        }
+    }
+  },
+  mounted: function () {
+    this.$nextTick(function () {
+        this.update()
+    })
+  },
+  methods: {
+    update () {
+        let _this = this
+        this.$store.state.targets_db.find({}, function (err, docs) {
+            _this.targets_show = docs
+        })
+    },
+    handleEdit (index, row) {
+        this.dialog_edit = true
+        this.target_edit = row
+    },
+    handleDelete (index, row) {
+        this.$store.state.targets_db.remove({ _id: row._id }, {}, function (err, numRemoved) {})
+        this.update()
+    },
+    saveEditedTarget () {
+        console.log(this.target_edit)
+        this.$store.state.targets_db.update({ _id: this.target_edit._id },
+            {
+                name: this.target_edit.name,
+                corporation: this.target_edit.corporation,
+                registered_capital: this.target_edit.registered_capital,
+                address: this.target_edit.address,
+                phone: this.target_edit.phone
+            }, {}, function (err, numReplaced) {})
+        this.dialog_edit = false
+    }
+  }
+}
+</script>
