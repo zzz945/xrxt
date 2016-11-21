@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import App from './App.vue'
 import VueRouter from 'vue-router'
+
+import store from './vuex/store'//初始化数据库，必须位于最前面
+import App from './App.vue'
 import Home from './pages/home.vue'
 import Officials from './pages/officials.vue'
 import Targets from './pages/targets.vue'
-
-import store from './vuex/store'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

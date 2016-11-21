@@ -85,7 +85,6 @@ export default {
         this.update()
     },
     saveEditedTarget () {
-        console.log(this.target_edit)
         this.$store.state.targets_db.update({ _id: this.target_edit._id },
             {
                 name: this.target_edit.name,

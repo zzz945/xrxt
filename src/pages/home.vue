@@ -7,7 +7,7 @@
       <el-col :span="12">
         <el-form>
           <el-form-item label="执法人员数量">
-            <el-input-number v-model="input_count_official" :min="0" :max="$store.state.officials.length">
+            <el-input-number v-model="input_count_official" :min="0" :max="officials_count">
             </el-input-number>
           </el-form-item>
         </el-form>
@@ -23,7 +23,7 @@
       <el-col :span="12">
         <el-form>
           <el-form-item label="执法对象数量">
-            <el-input-number v-model="input_count_target" :min="0" :max="$store.state.targets.length"></el-input-number>
+            <el-input-number v-model="input_count_target" :min="0" :max="targets_count"></el-input-number>
           </el-form-item>
         </el-form>
       </el-col>
@@ -110,6 +110,8 @@ export default {
     return {
       input_count_official: 0,
       input_count_target: 0,
+      officials_count: 0,
+      targets_count: 0,
       officials_picked: [],
       targets_picked: [],
       show_result: false,
@@ -118,6 +120,30 @@ export default {
       offical_showed: {},
       target_showed: {}
     }
+  },
+  mounted: function () {
+    let _this = this
+    this.$nextTick(function () {
+      const assert = require('assert')  
+      const fs = require('fs')
+
+      fs.stat(_this.$store.state.officials_db_path, function(err, stat) {
+        assert((err == null && stat.isFile())|| err.code == 'ENOENT')    
+        if(err == null && stat.isFile()) {
+          console.log('读取数据库...')
+          _this.$store.state.initDb(false)
+        } else {//第一次运行，存入初始化数据
+          console.log('初始化数据库...')
+          _this.$store.state.initDb(true)
+        }
+        _this.$store.state.officials_db.count({}, function (err, count) {
+          _this.officials_count = count
+        })
+        _this.$store.state.targets_db.count({}, function (err, count) {
+          _this.targets_count = count
+        })
+      })  
+    })
   },
   methods: {
     pick () {

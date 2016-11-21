@@ -29,22 +29,22 @@
         <el-dialog title="执法人员信息" size="large" v-model="dialog_edit">
             <el-form :model="official_edit">
                 <el-form-item label="姓名">
-                    <el-input v-model="official_edit.name"></el-input>
+                    <el-input v-model="official_edit === null? '' : official_edit.name"></el-input>
                 </el-form-item>
                 <el-form-item label="性别">
-                    <el-input v-model="official_edit.sex"></el-input>
+                    <el-input v-model="official_edit === null? '' : official_edit.sex"></el-input>
                 </el-form-item>
                 <el-form-item label="年龄">
-                    <el-input v-model="official_edit.age"></el-input>
+                    <el-input v-model="official_edit === null? '' : official_edit.age"></el-input>
                 </el-form-item>
                 <el-form-item label="科室">
-                    <el-input v-model="official_edit.office"></el-input>
+                    <el-input v-model="official_edit === null? '' : official_edit.office"></el-input>
                 </el-form-item>
                 <el-form-item label="职位">
-                    <el-input v-model="official_edit.position"></el-input>
+                    <el-input v-model="official_edit === null? '' : official_edit.position"></el-input>
                 </el-form-item>
                 <el-form-item label="电话">
-                    <el-input v-model="official_edit.phone"></el-input>
+                    <el-input v-model="official_edit === null? '' : official_edit.phone"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -61,14 +61,7 @@ export default {
     return {
         officials_show: [],
         dialog_edit: false,
-        official_edit: {
-            name: "",
-            sex: "",
-            age: "",
-            office: "",
-            position: "",
-            phone: ""
-        }
+        official_edit: null
     }
   },
   mounted: function () {

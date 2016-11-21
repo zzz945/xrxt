@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 const Datastore = require('nedb')
-const assert = require('assert')  
-const fs = require('fs')
 
 const OFFICIALS_DB_PATH = 'dist/assets/officials.db'
 const TARGETS_DB_PATH = 'dist/assets/targets.db'
@@ -34,44 +32,24 @@ const TARGETS = [
 const state = {
   officials_db: null,
   targets_db: null,
-  officials: [],
-  targets: []
-}
-
-function init_db () {
-  state.officials_db = new Datastore({ filename: OFFICIALS_DB_PATH})
-  state.targets_db = new Datastore({ filename: TARGETS_DB_PATH})
-  state.officials_db.loadDatabase()
-  state.targets_db.loadDatabase()
-}
-
-fs.stat(OFFICIALS_DB_PATH, function(err, stat) {
-  assert((err == null && stat.isFile())|| err.code == 'ENOENT')
-  if(err == null && stat.isFile()) {
-    console.log('读取数据库...')
-    init_db()
-
-    state.officials_db.find({}, function (err, docs) {
-      state.officials = docs
-    })
-    state.targets_db.find({}, function (err, docs) {
-      state.targets = docs
-    })
-  } else {//第一次运行，存入初始化数据
-    console.log('初始化数据库...')
-    init_db()
-
-    state.officials_db.insert(OFFICIALS)
-    state.targets_db.insert(TARGETS)
-    state.officials = OFFICIALS
-    state.targets = TARGETS
+  officials_db_path: OFFICIALS_DB_PATH,
+  targets_db_path: TARGETS_DB_PATH,
+  initDb: function(first) {
+    this.officials_db = new Datastore({ filename: this.officials_db_path})
+    this.targets_db = new Datastore({ filename: this.targets_db_path})
+    this.officials_db.loadDatabase()
+    this.targets_db.loadDatabase()
+    if (first) {
+      this.officials_db.insert(OFFICIALS)
+      this.targets_db.insert(TARGETS)
+    }
   }
-})
-
-Vue.use(Vuex)
+}
 
 const mutations = {
 }
+
+Vue.use(Vuex)
 
 export default new Vuex.Store({
   state,
