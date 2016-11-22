@@ -1,6 +1,10 @@
 <template>
     <div>
-        <el-button type="primary" @click="handleAdd">新增执法人员</el-button>
+        <el-button type="primary" @click="handleAdd">新增</el-button>
+        <el-button @click="handleImport">导入</el-button>
+        <el-button @click="handleExport">导出</el-button>
+        <input id="fileDialogImport" hidden type="file" accept=".xls,.xlsx,application/ms-excel">
+        <input id="fileDialogExport" hidden type="file" nwsaveas="执法人员.xlsx" />
         <el-table :data="officials_show" border style="width: 100%">
             <el-table-column type="index">
             </el-table-column>
@@ -71,6 +75,21 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
+        let import_dialog = document.querySelector("#fileDialogImport")
+        import_dialog.addEventListener("change", function(evt) {        
+            XLSX = require('xlsx')
+            let workbook = XLSX.readFile(this.value)
+            let first_sheet_name = workbook.SheetNames[0];
+            let worksheet = workbook.Sheets[first_sheet_name];
+            let json = XLSX.utils.sheet_to_json(worksheet)
+            console.log("import", this.value, json)
+            import_dialog.value = ""
+        }, false)
+        let export_dialog = document.querySelector("#fileDialogExport")
+        export_dialog.addEventListener("change", function(evt) {
+            console.log("export", this.value)
+            export_dialog.value = ""
+        }, false)
         this.update()
     })
   },
@@ -101,6 +120,14 @@ export default {
             position: "",
             phone: ""
         }
+    },
+    handleImport () {
+        let chooser = document.querySelector("#fileDialogImport")
+        chooser.click()
+    },
+    handleExport () {
+        let chooser = document.querySelector("#fileDialogExport")
+        chooser.click()
     },
     saveEditedOfficial () {
         if (this.dialog_stat === DIALOG_STAT_ADD) {//新增
