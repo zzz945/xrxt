@@ -1,5 +1,6 @@
 <template>
     <div>
+        <el-button type="primary" @click="handleAdd">新增执法人员</el-button>
         <el-table :data="officials_show" border style="width: 100%">
             <el-table-column type="index">
             </el-table-column>
@@ -26,7 +27,7 @@
                 </div>
             </el-table-column>
         </el-table>
-        <el-dialog title="执法人员信息" size="large" v-model="dialog_edit">
+        <el-dialog title="执法人员信息" size="large" v-model="dialog_show">
             <el-form :model="official_edit">
                 <el-form-item label="姓名">
                     <el-input v-model="official_edit === null? '' : official_edit.name"></el-input>
@@ -56,11 +57,15 @@
 </template>
 
 <script>
+const DIALOG_STAT_NOUSE = 0
+const DIALOG_STAT_ADD = 1
+const DIALOG_STAT_EDIT = 2
 export default {
   data () {
     return {
         officials_show: [],
-        dialog_edit: false,
+        dialog_stat: DIALOG_STAT_NOUSE,
+        dialog_show: false,
         official_edit: null
     }
   },
@@ -77,16 +82,31 @@ export default {
         })
     },
     handleEdit (index, row) {
-        this.dialog_edit = true
+        this.dialog_stat = DIALOG_STAT_EDIT
+        this.dialog_show = true
         this.official_edit = row
     },
     handleDelete (index, row) {
         this.$store.state.officials_db.remove({ _id: row._id }, {}, function (err, numRemoved) {})
         this.update()
     },
+    handleAdd () {
+        this.dialog_stat = DIALOG_STAT_ADD
+        this.dialog_show = true
+        this.official_edit = {
+            name: "",
+            sex: "",
+            age: "",
+            office: "",
+            position: "",
+            phone: ""
+        }
+    },
     saveEditedOfficial () {
-        console.log(this.official_edit)
-        this.$store.state.officials_db.update({ _id: this.official_edit._id },
+        if (this.dialog_stat === DIALOG_STAT_ADD) {//新增
+            this.$store.state.officials_db.insert(this.official_edit)
+        } else {//编辑
+            this.$store.state.officials_db.update({ _id: this.official_edit._id },
             {
                 name: this.official_edit.name,
                 sex: this.official_edit.sex,
@@ -94,8 +114,12 @@ export default {
                 office: this.official_edit.office,
                 position: this.official_edit.position,
                 phone: this.official_edit.phone
-            }, {}, function (err, numReplaced) {})
-        this.dialog_edit = false
+            }, {}, function (err, numReplaced) {}) 
+        }
+        
+        this.dialog_stat = DIALOG_STAT_NOUSE
+        this.dialog_show = false
+        this.update()
     }
   }
 }
