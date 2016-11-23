@@ -1,6 +1,10 @@
 <template>
     <div>
         <el-button type="primary" @click="handleAdd">新增</el-button>
+        <el-button @click="handleImport">导入</el-button>
+        <el-button style="display:none;" @click="handleExport">导出</el-button>
+        <input id="fileDialogImport" hidden type="file" accept=".xls,.xlsx,application/ms-excel">
+        <input id="fileDialogExport" hidden type="file" nwsaveas="检查主体.xlsx" />
         <el-table :data="targets_show" border style="width: 100%">
             <el-table-column type="index">
             </el-table-column>
@@ -75,6 +79,48 @@ export default {
   },
   mounted: function () {
     this.$nextTick(function () {
+        let _this = this  
+        let import_dialog = document.querySelector("#fileDialogImport")
+        import_dialog.addEventListener("change", function(evt) {        
+            const fs = require('fs')
+            let data = fs.readFileSync(this.value)
+            let workbook = XLSX.read(data)
+            let first_sheet_name = workbook.SheetNames[0]
+            let worksheet = workbook.Sheets[first_sheet_name]
+            let json_list = XLSX.utils.sheet_to_json(worksheet)
+
+            console.log("import", this.value, json_list.length)  
+            import_dialog.value = ""   
+            
+            if(json_list.length === 0) return
+            let json = json_list[0]
+            let i = 0
+            for(let key in json){
+                if(key != "name" && key != "tyshxydm" && 
+                    key != "frdb"  && key != "address" && 
+                    key != "phone" && key != "beizhu") {
+                    _this.$notify( {
+                        title: '文件格式错误',
+                        message: '请正确输入表头及内容',
+                        duration: 6000
+                    })
+                    console.log("wrong format", key)
+                    return
+                }
+            }
+
+            _this.$store.state.targets_db.insert(json_list)
+            _this.update()
+
+            console.log("import", this.value)
+            import_dialog.value = ""
+        }, false)
+
+        let export_dialog = document.querySelector("#fileDialogExport")
+        export_dialog.addEventListener("change", function(evt) {
+            console.log("export", this.value)
+            export_dialog.value = ""
+        }, false)
         this.update()
     })
   },
@@ -107,6 +153,14 @@ export default {
             phone: "",
             beizhu: ""
         }
+    },
+    handleImport () {
+        let chooser = document.querySelector("#fileDialogImport")
+        chooser.click()
+    },
+    handleExport () {
+        let chooser = document.querySelector("#fileDialogExport")
+        chooser.click()
     },
     saveEditedTarget () {
         if (this.dialog_stat === DIALOG_STAT_ADD) {//新增
