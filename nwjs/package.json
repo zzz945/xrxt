@@ -1,10 +1,10 @@
 {
   "main": "index.html",
-  "name": "xrxt",
+  "name": "北票市编办行政检查随机抽取系统",
   "window": {
     "icon": "./dist/assets/logo.png",
-    "width": 800,
-    "height": 500
+    "width": 1000,
+    "height": 800
   },
   "node-remote": "http://localhost"
 }

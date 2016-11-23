@@ -58,45 +58,54 @@
     <el-dialog title="执法人员信息" size="large" v-model="show_offical_info">
       <el-row :gutter="0">
         <el-col :span="6">
-          <p>姓名:{{offical_showed.name}}</p>
+          <p>{{OFFICIAL_PROP.NAME + ":" + offical_showed.name}}</p>
         </el-col>
         <el-col :span="6">
-          <p>性别:{{offical_showed.sex}}</p>
+          <p>{{OFFICIAL_PROP.SEX + ":" + offical_showed.sex}}</p>
         </el-col>
         <el-col :span="6">
-          <p>年龄:{{offical_showed.age}}</p>
+          <p>{{OFFICIAL_PROP.OFFICE + ":" + offical_showed.office}}</p>
+        </el-col>
+        <el-col :span="6">
+          <p>{{OFFICIAL_PROP.POSITION + ":" + offical_showed.position}}</p>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
-          <p>科室:{{offical_showed.office}}</p>
+          <p>{{OFFICIAL_PROP.BZXZ + ":" + offical_showed.bzxz}}</p>
         </el-col>
         <el-col :span="6">
-          <p>职位:{{offical_showed.position}}</p>
+          <p>{{OFFICIAL_PROP.ZFZBH + ":" + offical_showed.zfzbh}}</p>
         </el-col>
-        <el-col :span="12">
-          <p>电话:{{offical_showed.phone}}</p>
+        <el-col :span="6">
+          <p>{{OFFICIAL_PROP.ZFFW + ":" + offical_showed.zffw}}</p>
+        </el-col>
+        <el-col :span="6">
+          <p>{{OFFICIAL_PROP.PHONE + ":" + offical_showed.phone}}</p>
         </el-col>
       </el-row>
     </el-dialog>
     <el-dialog title="执法目标信息" size="large" v-model="show_target_info">
       <el-row :gutter="0">
         <el-col :span="6">
-          <p>姓名:{{target_showed.name}}</p>
-        </el-col>
-        <el-col :span="6">
-          <p>法人:{{target_showed.corporation}}</p>
+          <p>{{TARGET_PROP.NAME + ":" + target_showed.name}}</p>
         </el-col>
         <el-col :span="12">
-          <p>注册资本:{{target_showed.registered_capital}}</p>
+          <p>{{TARGET_PROP.TYSHXYDM + ":" + target_showed.tyshxydm}}</p>
+        </el-col>
+        <el-col :span="6">
+          <p>{{TARGET_PROP.FRDB + ":" + target_showed.frdb}}</p>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="12">
-          <p>地址:{{target_showed.address}}</p>
+        <el-col :span="8">
+          <p>{{TARGET_PROP.ADDRESS + ":" + target_showed.address}}</p>
         </el-col>
-        <el-col :span="12">
-          <p>电话:{{target_showed.phone}}</p>
+        <el-col :span="8">
+          <p>{{TARGET_PROP.PHONE + ":" + target_showed.phone}}</p>
+        </el-col>
+        <el-col :span="8">
+          <p>{{TARGET_PROP.BEIZHU + ":" + target_showed.beizhu}}</p>
         </el-col>
       </el-row>
     </el-dialog>
@@ -104,7 +113,7 @@
 </template>
 
 <script>
-
+const DEFINES = require('../defines.js')  
 export default {
   data () {
     return {
@@ -118,7 +127,9 @@ export default {
       show_offical_info: false,
       show_target_info: false,
       offical_showed: {},
-      target_showed: {}
+      target_showed: {},
+      OFFICIAL_PROP: DEFINES.OFFICIAL_PROP,
+      TARGET_PROP: DEFINES.TARGET_PROP,
     }
   },
   mounted: function () {

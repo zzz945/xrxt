@@ -1,18 +1,20 @@
 <template>
     <div>
-        <el-button type="primary" @click="handleAdd">新增执法对象</el-button>
+        <el-button type="primary" @click="handleAdd">新增</el-button>
         <el-table :data="targets_show" border style="width: 100%">
             <el-table-column type="index">
             </el-table-column>
-            <el-table-column prop="name" label="公司">
+            <el-table-column prop="name" :label="TARGET_PROP.NAME">
             </el-table-column>
-            <el-table-column prop="corporation" label="法人">
+            <el-table-column prop="tyshxydm" :label="TARGET_PROP.TYSHXYDM">
             </el-table-column>
-            <el-table-column prop="registered_capital" label="注册资金">
+            <el-table-column prop="frdb" :label="TARGET_PROP.FRDB">
             </el-table-column>
-            <el-table-column prop="address" label="地址">
+            <el-table-column prop="address" :label="TARGET_PROP.ADDRESS">
             </el-table-column>
-            <el-table-column prop="phone" label="电话">
+            <el-table-column prop="phone" :label="TARGET_PROP.PHONE">
+            </el-table-column>
+            <el-table-column prop="beizhu" :label="TARGET_PROP.BEIZHU">
             </el-table-column>
             <el-table-column :context="_self" inline-template label="操作">
                 <div>
@@ -25,22 +27,25 @@
                 </div>
             </el-table-column>
         </el-table>
-        <el-dialog title="执法目标信息" size="large" v-model="dialog_show">
+        <el-dialog :title="dialog_title" size="large" v-model="dialog_show">
             <el-form :model="target_edit">
-                <el-form-item label="名称">
+                <el-form-item :label="TARGET_PROP.NAME">
                     <el-input v-model="target_edit === null? '' : target_edit.name"></el-input>
                 </el-form-item>
-                <el-form-item label="法人">
-                    <el-input v-model="target_edit === null? '' : target_edit.corporation"></el-input>
+                <el-form-item :label="TARGET_PROP.TYSHXYDM">
+                    <el-input v-model="target_edit === null? '' : target_edit.tyshxydm"></el-input>
                 </el-form-item>
-                <el-form-item label="注册资金">
-                    <el-input v-model="target_edit === null? '' : target_edit.registered_capital"></el-input>
+                <el-form-item :label="TARGET_PROP.FRDB">
+                    <el-input v-model="target_edit === null? '' : target_edit.frdb"></el-input>
                 </el-form-item>
-                <el-form-item label="地址">
+                <el-form-item :label="TARGET_PROP.ADDRESS">
                     <el-input v-model="target_edit === null? '' : target_edit.address"></el-input>
                 </el-form-item>
-                <el-form-item label="电话">
+                <el-form-item :label="TARGET_PROP.PHONE">
                     <el-input v-model="target_edit === null? '' : target_edit.phone"></el-input>
+                </el-form-item>
+                <el-form-item :label="TARGET_PROP.BEIZHU">
+                    <el-input v-model="target_edit === null? '' : target_edit.beizhu"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -51,6 +56,8 @@
     </div>
 </template>
 <script>
+
+const DEFINES = require('../defines.js') 
 const DIALOG_STAT_NOUSE = 0
 const DIALOG_STAT_ADD = 1
 const DIALOG_STAT_EDIT = 2
@@ -61,7 +68,9 @@ export default {
         targets_show: [],
         dialog_edit: false,
         target_edit: null,
-        dialog_show: false
+        dialog_show: false,
+        dialog_title: "",
+        TARGET_PROP: DEFINES.TARGET_PROP
     }
   },
   mounted: function () {
@@ -78,6 +87,7 @@ export default {
     },
     handleEdit (index, row) {
         this.dialog_stat = DIALOG_STAT_EDIT
+        this.dialog_title = "编辑检查主体"
         this.dialog_show = true
         this.target_edit = row
     },
@@ -87,13 +97,15 @@ export default {
     },
     handleAdd () {
         this.dialog_stat = DIALOG_STAT_ADD
+        this.dialog_title = "新增检查主体"
         this.dialog_show = true
         this.target_edit = {
             name: "",
-            corporation: "",
-            registered_capital: "",
+            tyshxydm: "",
+            frdb: "",
             address: "",
-            phone: ""
+            phone: "",
+            beizhu: ""
         }
     },
     saveEditedTarget () {
@@ -103,10 +115,11 @@ export default {
             this.$store.state.targets_db.update({ _id: this.target_edit._id },
                 {
                     name: this.target_edit.name,
-                    corporation: this.target_edit.corporation,
-                    registered_capital: this.target_edit.registered_capital,
+                    tyshxydm: this.target_edit.tyshxydm,
+                    frdb: this.target_edit.frdb,
                     address: this.target_edit.address,
-                    phone: this.target_edit.phone
+                    phone: this.target_edit.phone,
+                    beizhu: this.target_edit.beizhuphone
                 }, {}, function (err, numReplaced) {})
         }
         this.dialog_edit = false

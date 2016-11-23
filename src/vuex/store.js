@@ -5,28 +5,28 @@ const Datastore = require('nedb')
 const OFFICIALS_DB_PATH = 'dist/assets/officials.db'
 const TARGETS_DB_PATH = 'dist/assets/targets.db'
 const OFFICIALS = [
-        {"name": "张", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "郭", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "宋", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "王", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "李", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "赵", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "周", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "吴", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "刘", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"},
-        {"name": "曹", "sex": "男", "age": "18", "office": "信息科", "position": "科长", "phone": "18888888888"}
+        {name: "张", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "郭", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "宋", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "王", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "李", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "赵", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "周", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "吴", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "刘", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"},
+        {name: "曹", sex: "男", office: "信息科", position: "科长", bzxz: "行政", zfzbh: "123", zffw: "qq", phone: "18888888888"}
     ]
 const TARGETS = [
-        {"name": "百度", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "阿里", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "腾讯", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "搜狐", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "网易", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "乐视", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "京东", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "小米", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "华为", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"},
-        {"name": "oppo", "corporation": "马云", "registered_capital": "1000万", "address": "南山街", "phone": "18888888888"}
+        {name: "百度", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "阿里", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "腾讯", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "搜狐", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "网易", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "乐视", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "京东", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "小米", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "华为", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""},
+        {name: "oppo", tyshxydm: "123", frdb: "马云", "address": "南山街", phone: "18888888888", beizhu: ""}
     ]
     
 const state = {
